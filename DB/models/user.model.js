@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../connection.js";
+import slotModel from "./slot.model.js";
 
 const userModel = sequelize.define(
   `user`,
@@ -42,5 +43,14 @@ const userModel = sequelize.define(
     timestamps: true,
   }
 );
+
+// Define the associations
+userModel.hasMany(slotModel, {
+  onDelete: 'CASCADE', // Add CASCADE option for deletion
+  onUpdate: 'CASCADE', // Add CASCADE option for update
+});
+
+slotModel.belongsTo(userModel)
+ 
 
 export default userModel;
