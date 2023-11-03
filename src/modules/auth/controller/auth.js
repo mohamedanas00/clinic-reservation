@@ -24,6 +24,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
       phone: phone,
       role: role,
       gender: gender,
+      specialization: req.body.specialization,
     });
     const token = generateToken({
       payload: {

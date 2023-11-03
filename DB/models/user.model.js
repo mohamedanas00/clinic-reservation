@@ -29,7 +29,7 @@ const userModel = sequelize.define(
       type: DataTypes.ENUM("male", "female"),
       allowNull: false,
     },
-    Specialization: {
+    specialization: {
       type: DataTypes.STRING,
       allowNull: true,
     },
