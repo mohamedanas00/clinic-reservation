@@ -39,3 +39,22 @@ export const signUp = asyncHandler(async (req, res, next) => {
     }
 });
 
+export const signin = asyncHandler(async (req, res, next) => {
+    const { email, password } = req.body;
+    const user = await usermodel.findOne({ where: { email } });
+    if (!user) {
+        return next(new ErrorClass('Email does not exist sign up first'),StatusCodes.BAD_REQUEST)
+    }
+    const isMatch = compare(password, user.password);
+    if (isMatch) {
+        const token = generateToken({ payload: {
+            email,
+            password,
+        },});
+        return res.status(StatusCodes.ACCEPTED).json({ message: 'Successfully signed in', token });
+    } else {
+        return next(new ErrorClass('incorrect password'),StatusCodes.BAD_REQUEST)
+    }
+}
+);
+
