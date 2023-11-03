@@ -29,6 +29,10 @@ const userModel = sequelize.define(
       type: DataTypes.ENUM("male", "female"),
       allowNull: false,
     },
+    Specialization: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,

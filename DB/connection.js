@@ -14,7 +14,7 @@ export const sequelize = new Sequelize(
 
 export const connectDB = async () => {
   return await sequelize
-    .sync({ alter: false })
+    .sync({ alter: true })
     .then((Result) => {
       console.log(`DB Connected`);
     })
