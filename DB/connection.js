@@ -1,21 +1,26 @@
-import mysql2 from "mysql2";
 import dotenv from "dotenv";
 dotenv.config();
+import { Sequelize } from "sequelize";
 
-const connectDB = mysql2.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DBNAME,
-});
-
-// Add a 'connect' event listener to check the connection status
-connectDB.connect((err) => {
-  if (err) {
-    console.error("Error connecting to MySQL: " + err.stack);
-    return;
+export const sequelize = new Sequelize(
+  process.env.DB_DBNAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
   }
-  console.log("Connected to MySQL with threadId: " + connectDB.threadId);
-});
+);
+
+export const connectDB = async () => {
+  return await sequelize
+    .sync({ alter: false })
+    .then((Result) => {
+      console.log(`DB Connected`);
+    })
+    .catch((err) => {
+      console.log(`FAIL to connect DB ......${err}`);
+    });
+};
 
 export default connectDB;
