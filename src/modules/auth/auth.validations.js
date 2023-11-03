@@ -1,7 +1,7 @@
 import joi from "joi"
 import { generalFields } from "../../middleware/validation.js"
 
-export const signup={
+export const signUp={
     body:joi.object().required().keys({
        name:generalFields.name,
        email:generalFields.email,
@@ -10,10 +10,10 @@ export const signup={
        phone:joi.string().min(11).max(11).pattern(/^\d+$/).required(),
        role:joi.string().valid('doctor', 'patient').required(),
        password:generalFields.password,
-       confirmpassword:generalFields.password
+       confirmPassword:generalFields.password
     }).required()
 }
-export const signin={
+export const signIn={
     body:joi.object().required().keys({
         email:generalFields.email,
         password:generalFields.password,

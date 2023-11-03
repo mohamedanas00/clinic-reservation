@@ -1,12 +1,18 @@
 import { Router } from "express";
-import *as AuthRouter from "./controller/auth.js"
-import {ValidationCoreFunction} from "../../middleware/validation.js"
+import * as AuthRouter from "./controller/auth.js";
+import { ValidationCoreFunction } from "../../middleware/validation.js";
 import * as Validators from "./auth.validations.js";
-const router=Router()
+const router = Router();
 
-router.post("/signup",ValidationCoreFunction(Validators.signup),AuthRouter.signUp)
-router.post("/signin",ValidationCoreFunction(Validators.signin),AuthRouter.signin)
+router.post(
+  "/signup",
+  ValidationCoreFunction(Validators.signUp),
+  AuthRouter.signUp
+);
+router.post(
+  "/signIn",
+  ValidationCoreFunction(Validators.signIn),
+  AuthRouter.signIn
+);
 
-
-
-export default router 
+export default router;
