@@ -13,7 +13,6 @@ export const signUp = asyncHandler(async (req, res, next) => {
   if (existingUser) {
     return next(new ErrorClass("Email already exists", StatusCodes.CONFLICT));
   }
-  userModel;
   if (confirmPassword === password) {
     const hashedPassword = hash(password);
     const newUser = await userModel.create({
@@ -28,7 +27,6 @@ export const signUp = asyncHandler(async (req, res, next) => {
     });
     const token = generateToken({
       payload: {
-        name,
         email,
         password: newUser.password,
       },
