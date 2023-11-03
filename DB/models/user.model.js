@@ -29,6 +29,10 @@ const userModel = sequelize.define(
       type: DataTypes.ENUM("male", "female"),
       allowNull: false,
     },
+    role: {
+      type: DataTypes.ENUM("doctor", "patient"),
+      allowNull: false,
+    },
     specialization: {
       type: DataTypes.STRING,
       allowNull: true,
