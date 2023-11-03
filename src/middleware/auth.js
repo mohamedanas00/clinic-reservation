@@ -4,11 +4,14 @@ import { asyncHandler } from "../utils/errorHandling.js";
 import jwt from "jsonwebtoken";
 import userModel from "../../DB/models/user.model.js";
 
-export const roles = {
-    doctor: 'doctor',
-    patient: 'patient'
+
+export const userAuth = {
+    doctor: ['doctor'],
+    patient:['patient'],
+    both: ['patient','doctor'],
 }
-Object.freeze(roles)
+
+Object.freeze(userAuth)
 const auth = (userRoles = []) => {
     return asyncHandler(async (req, res, next) => {
         const { authenticated } = req.headers;
@@ -20,14 +23,15 @@ const auth = (userRoles = []) => {
             return next(new ErrorClass("In-valid token", StatusCodes.BAD_REQUEST))
         }
         const decode = jwt.verify(token, process.env.TOKEN_SIGNATURE)
-        if (!decode?.id) {
+
+        if (!decode.payload?.email) {
             return next(new ErrorClass("In-valid token payload", StatusCodes.BAD_REQUEST))
         }
-        const authUser = await userModel.findOne({ _id: decode.id })
+        
+        const authUser = await userModel.findOne({ email: decode.email })
         if (!authUser) {
             return next(new ErrorClass("Not Register account", StatusCodes.NOT_FOUND))
         }
-        //authorization
         if (!userRoles.includes(authUser.role)) {
             return next(new ErrorClass("Permission Denied🚫!", StatusCodes.UNAUTHORIZED))
         }
