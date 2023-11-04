@@ -3,79 +3,65 @@ import { ErrorClass } from "../../../utils/errorClass.js";
 import { asyncHandler } from "../../../utils/errorHandling.js";
 import { StatusCodes } from "http-status-codes";
 import slotModel from "../../../../DB/models/slot.model.js";
-import { ApiFeatures } from "../../../utils/apiFeatures.js";
+import { Op } from 'sequelize';
 
+export const GetDoctorsWithSlots = asyncHandler(async (req, res, next) => {
+  const user = await userModel.findAll({
+    where: {
+      role: "doctor",
+    },
+    attributes:{exclude:['password']},
+    include: [
+        {
+          model: slotModel,
+        },
+      ],
+  });
+  if (user.length == 0) {
+    return next(new ErrorClass(`No doctors found `), StatusCodes.OK);
+  }
+  return res.status(StatusCodes.OK).json({ message: `done`, user });
+});
 
-export const GetDoctorsWithSlots = asyncHandler(
-    async (req, res, next) => {
-        const user = await userModel.findAll({
-            where: {
-                role: 'doctor'
-            }, include: [
-                {
-                    model: slotModel,
-                }
-            ]
-        });
-        if (user.length == 0) {
-            return next(new ErrorClass(`No doctors found `), StatusCodes.OK)
-        }
-        return res.status(StatusCodes.OK).json({ message: `doone`, user })
-    }
-)
+export const GetDoctorWithMajors = asyncHandler(async (req, res, next) => {
+  const { specialization } = req.body;
+  const user = await userModel.findAll({
+    where: {
+      role: "doctor",
+      specialization: specialization,
+    },
+    attributes:{exclude:['password']},
+    include: [
+      {
+        model: slotModel,
+      },
+    ],
+  });
+  if (user.length == 0) {
+    return next(new ErrorClass(`No doctors found `), StatusCodes.OK);
+  }
+  return res.status(StatusCodes.OK).json({ message: `done`, user });
+});
 
-export const GetDoctorWithMajors = asyncHandler(
-    async (req, res, next) => {
-        const { specialization } = req.body
-        const user = await userModel.findAll({
-            where: {
-                role: 'doctor',
-                specialization: specialization
-            }, include: [
-                {
-                    model: slotModel,
-                }
-            ]
-        });
-        if (user.length == 0) {
-            return next(new ErrorClass(`No doctors found `), StatusCodes.OK)
-        }
-        return res.status(StatusCodes.OK).json({ message: `doone`, user })
-    }
-)
-export const getAllDoctors = asyncHandler(async (req, res, next) => {
-    const user = await userModel.findAll({
-        where: {
-            role: 'doctor'
-        }, include: [
-            {
-                model: slotModel,
-            }
-        ]
-    });
-        console.log(user);
-        const features = new ApiFeatures(user, req.query) 
-            .pagination(userModel);
+export const searchByDoctorName = asyncHandler(async (req, res, next) => {
+  const pageAsNumber=0;
+  if(req.query.page){
+     pageAsNumber =Number(req.query.page);
+  }
 
-        const doctors = await features.sequalizeQuery;
-        if (doctors) {
-            return res.status(StatusCodes.OK).json({ message: 'done', page: features.page, doctors: doctors });
-        }
-        console.error(error);
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'Internal Server Error', error: error.message });
-    }
+  const doctor = await userModel.findAll({ 
+    where: {
+      name:{ [Op.like]: `%${req.query.name}%`},
+      role: "doctor",
+    },
+    attributes:{exclude:['password']},
+    include:{model:slotModel},
+    limit:Number(process.env.page_limit),
+    offset:pageAsNumber*Number(process.env.page_limit)
 
-);
+  });
+    
 
+    return res.status(StatusCodes.OK).json({ message: `done`, doctor });
 
-
-
-
-
-// where: {
-//     role: 'doctor'
-//   },include: [
-//       {
-//         model: slotModel,
-//       }
-//     ]}
+});
