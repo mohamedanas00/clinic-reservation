@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../connection.js";
 import slotModel from "./slot.model.js";
+import appointmentModel from "./appointment.model.js";
 
 const userModel = sequelize.define(
   `user`,
@@ -49,6 +50,13 @@ userModel.hasMany(slotModel, {
   onDelete: 'CASCADE', // Add CASCADE option for deletion
   onUpdate: 'CASCADE', // Add CASCADE option for update
 });
+
+userModel.hasMany(appointmentModel, {
+  onDelete: 'CASCADE', // Add CASCADE option for deletion
+  onUpdate: 'CASCADE', // Add CASCADE option for update
+});
+
+appointmentModel.belongsTo(userModel)
 
 slotModel.belongsTo(userModel)
  
