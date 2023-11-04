@@ -2,7 +2,6 @@ import { StatusCodes } from "http-status-codes";
 import { asyncHandler } from "../../../utils/errorHandling.js";
 import slotModel from "../../../../DB/models/slot.model.js";
 import { ErrorClass } from "../../../utils/errorClass.js";
-import status from "status";
 
 export const addSlot = asyncHandler(async (req, res, next) => {
   const doctorId = req.user.id;
