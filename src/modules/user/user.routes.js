@@ -6,3 +6,4 @@ router.get("/GetDoctorWithMajors",UserRouter.GetDoctorWithMajors)
 router.get("/searchByDoctorName",UserRouter.searchByDoctorName)
 
 export default router
+// cout<<ya 7rmyaaaaaaaaaaaaaaa
