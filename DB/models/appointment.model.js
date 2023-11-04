@@ -5,10 +5,6 @@ import slotModel from "./slot.model.js";
 const appointmentModel = sequelize.define(
   `appointment`,
   {
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     status: {
       type: DataTypes.ENUM("reserved", "cancel"),
       defaultValue: "reserved",
