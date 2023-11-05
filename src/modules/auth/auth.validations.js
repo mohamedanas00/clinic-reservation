@@ -2,9 +2,7 @@ import joi from "joi";
 import { generalFields } from "../../middleware/validation.js";
 
 export const signUp = {
-  body: joi
-    .object()
-    .required()
+  body: joi.object().required()
     .keys({
       name: generalFields.name,
       email: generalFields.email,
@@ -17,6 +15,12 @@ export const signUp = {
       specialization: joi.string(),
     })
     .required(),
+    query: joi.object().keys({
+      
+    }).required(),
+    params:joi.object().keys({
+      
+    }).required()
 };
 export const signIn = {
   body: joi
@@ -27,4 +31,10 @@ export const signIn = {
       password: generalFields.password,
     })
     .required(),
+    query: joi.object().keys({
+      
+    }).required(),
+    params:joi.object().keys({
+      
+    }).required()
 };
