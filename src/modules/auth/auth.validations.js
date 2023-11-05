@@ -8,7 +8,7 @@ export const signUp = {
       email: generalFields.email,
       age: joi.number().integer().min(1).max(110).required(),
       gender: joi.string().valid("male", "female").required(),
-      phone: joi.string().min(11).max(11).pattern(/^\d+$/).required(),
+      phone: joi.string().trim().pattern(/^(010|012|011|015)\d{8}$/),
       role: joi.string().valid("doctor", "patient").required(),
       password: generalFields.password,
       confirmPassword: generalFields.password,
