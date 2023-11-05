@@ -64,7 +64,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
     });
     return res
       .status(StatusCodes.ACCEPTED)
-      .json({ message: "Successfully signed in", token });
+      .json({ message: "Successfully signed in",user ,token });
   } else {
     return next(new ErrorClass("incorrect password"), StatusCodes.BAD_REQUEST);
   }
