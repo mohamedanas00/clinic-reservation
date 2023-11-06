@@ -17,5 +17,6 @@ const appointmentModel = sequelize.define(
 );
 // Define the associations
 slotModel.hasOne(appointmentModel);
+appointmentModel.belongsTo(slotModel)
 
 export default appointmentModel;

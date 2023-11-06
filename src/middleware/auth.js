@@ -23,15 +23,15 @@ const auth = (userRoles = []) => {
             return next(new ErrorClass("In-valid token", StatusCodes.BAD_REQUEST))
         }
         const decode = jwt.verify(token, process.env.TOKEN_SIGNATURE)
-
-        if (!decode.payload?.email) {
+    
+        if (!decode.payload?.id) {
             return next(new ErrorClass("In-valid token payload", StatusCodes.BAD_REQUEST))
         }
-        
-        const authUser = await userModel.findOne({ email: decode.email })
+        const authUser = await userModel.findOne({where:{id:decode.payload.id}})
         if (!authUser) {
             return next(new ErrorClass("Not Register account", StatusCodes.NOT_FOUND))
         }
+
         if (!userRoles.includes(authUser.role)) {
             return next(new ErrorClass("Permission Denied🚫!", StatusCodes.UNAUTHORIZED))
         }
