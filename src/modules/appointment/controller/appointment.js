@@ -6,18 +6,16 @@ import appointmentModel from "../../../../DB/models/appointment.model.js";
 import userModel from "../../../../DB/models/user.model.js";
 
 export const addAppointment = asyncHandler(async (req, res, next) => {
-  const { slotId } = req.params;
+  const { id } = req.params;
   const patientId = req.user.id;
   console.log(req.user.id);
-  const slot = await slotModel.findOne({ where: { id: slotId } });
+  const slot = await slotModel.findOne({ where: { id: id } });
   if (!slot) {
     return next(new ErrorClass("slot not found!", StatusCodes.NOT_FOUND));
   }
 
   if (slot.status == "reserved") {
-    return next(
-      new ErrorClass("slot already reserved!", StatusCodes.CONFLICT)
-    );
+    return next(new ErrorClass("slot already reserved!", StatusCodes.CONFLICT));
   }
 
   if (slot.status == "cancel") {
@@ -28,7 +26,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   slot.status = "reserved";
   await slot.save();
   const newAppointment = await appointmentModel.create({
-    slotId,
+    slotId:id,
     userId: patientId,
   });
 
@@ -56,29 +54,61 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.CREATED).json({ message: "Done", appointment });
 });
 
-
-export const getAllAppointments =asyncHandler(async(req,res,next)=>{
-    const patientId = req.user.id;
-    const appointments = await appointmentModel.findAll({
-        where:{userId:patientId},
-        attributes: { exclude: ["slotId", "userId"] },
+export const getAllAppointments = asyncHandler(async (req, res, next) => {
+  const patientId = req.user.id;
+  const appointments = await appointmentModel.findAll({
+    where: { userId: patientId },
+    attributes: { exclude: ["slotId", "userId"] },
+    include: [
+      {
+        model: userModel,
+        attributes: {
+          exclude: ["password", "specialization"],
+        },
+      },
+      {
+        model: slotModel,
         include: [
           {
             model: userModel,
-            attributes: {
-              exclude: ["password", "specialization"],
-            },
-          },
-          {
-            model: slotModel,
-            include: [
-              {
-                model: userModel,
-                attributes: { exclude: ["password"] },
-              },
-            ],
+            attributes: { exclude: ["password"] },
           },
         ],
-    });
-    return res.status(StatusCodes.OK).json({ message: "Done", appointments });
-})
+      },
+    ],
+  });
+  return res.status(StatusCodes.OK).json({ message: "Done", appointments });
+});
+
+export const cancelAppointment = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const patientId = req.user.id;
+
+  const appointment = await appointmentModel.findOne({
+    where: {
+      id: id,
+      userId: patientId,
+    },
+  });
+
+  if (!appointment) {
+    return next(
+      new ErrorClass("Appointment Not Found!"),
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  if(appointment.status=="cancel"){
+    return next(
+      new ErrorClass("Appointment Already Cancel!"),
+      StatusCodes.NOT_FOUND
+    );
+  }
+  const slotId =appointment.slotId;
+  await slotModel.update({status:"available"},{where:{id:slotId}})
+  appointment.status="cancel";
+  appointment.slotId=null
+  appointment.save();
+  
+  return res.status(StatusCodes.OK).json({ message: "Done"});
+});
