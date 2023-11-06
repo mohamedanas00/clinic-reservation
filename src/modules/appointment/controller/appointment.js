@@ -8,7 +8,6 @@ import userModel from "../../../../DB/models/user.model.js";
 export const addAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const patientId = req.user.id;
-  console.log(req.user.id);
   const slot = await slotModel.findOne({ where: { id: id } });
   if (!slot) {
     return next(new ErrorClass("slot not found!", StatusCodes.NOT_FOUND));
@@ -53,7 +52,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   });
   return res.status(StatusCodes.CREATED).json({ message: "Done", appointment });
 });
-
+//!Patients can view all his reservations
 export const getAllAppointments = asyncHandler(async (req, res, next) => {
   const patientId = req.user.id;
   const appointments = await appointmentModel.findAll({
@@ -79,7 +78,7 @@ export const getAllAppointments = asyncHandler(async (req, res, next) => {
   });
   return res.status(StatusCodes.OK).json({ message: "Done", appointments });
 });
-
+//! Patient can cancel his appointment.
 export const cancelAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const patientId = req.user.id;
@@ -112,3 +111,38 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
   
   return res.status(StatusCodes.OK).json({ message: "Done"});
 });
+
+
+//!Patient can update his appointment by change the doctor or the slot.
+export const updateAppointment =asyncHandler(async(req,res,next)=>{
+  const { id } = req.params;
+  const patientId = req.user.id;
+  const {slot}=req.body
+  const appointment = await appointmentModel.findOne({
+    where: {
+      id: id,
+      userId: patientId,
+    },
+  });
+  if (!appointment) {
+    return next(
+      new ErrorClass("Appointment Not Found!"),
+      StatusCodes.NOT_FOUND
+    );
+  }
+
+  if(appointment.status=="cancel"){
+    return next(
+      new ErrorClass("You can not make change Appointment is cancel!"),
+      StatusCodes.NOT_FOUND
+    );
+  }
+  const Id =appointment.slotId;
+
+  await slotModel.update({status:"available"},{where:{id:Id}})
+  appointment.slotId=slot
+  await appointment.save()
+  console.log(appointment);
+  return res.status(StatusCodes.OK).json({ message: "Done",appointment});
+
+})
