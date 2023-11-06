@@ -27,7 +27,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
     });
     const token = generateToken({
       payload: {
-        email,
+        id:newUser.id,
         password: newUser.password,
       },
     });
@@ -58,7 +58,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
   if (isMatch) {
     const token = generateToken({
       payload: {
-        email,
+        id:user.id,
         password,
       },
     });
