@@ -11,6 +11,6 @@ slotRouter.route('/')
     .get(auth(userAuth.doctor), slotController.getAllSlots);
 
 slotRouter.route('/:slotId').patch(auth(userAuth.doctor),ValidationCoreFunction(Validators.updateSlotDate), slotController.updateSlotDate);
-slotRouter.route('/:slotId').put(auth(userAuth.doctor), slotController.cancelSlot);
+// slotRouter.route('/:slotId').put(auth(userAuth.doctor), slotController.cancelSlot);
 
 export default slotRouter;
