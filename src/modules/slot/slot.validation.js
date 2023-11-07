@@ -13,13 +13,10 @@ export const addSlot = {
   }).required()
 };
 
-export const updateSlot = {
+export const updateSlotDate = {
     body: joi.object().required()
-      .keys({
-      }).required(),
-    query: joi.object().keys({
-      
-    }).required(),
+      .keys({date: joi.date().required(),}).required(),
+    query: joi.object().keys({}).required(),
     params:joi.object().keys({
       slotId:joi.number().required(),
     }).required()

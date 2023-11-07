@@ -6,7 +6,11 @@ import * as Validators from "./slot.validation.js";
 
 const slotRouter = Router();
 
-slotRouter.route('/').post(auth(userAuth.doctor),ValidationCoreFunction(Validators.addSlot), slotController.addSlot);
-slotRouter.route('/:slotId').patch(auth(userAuth.doctor),ValidationCoreFunction(Validators.updateSlot), slotController.updateSlot);
+slotRouter.route('/')
+    .post(auth(userAuth.doctor),ValidationCoreFunction(Validators.addSlot), slotController.addSlot)
+    .get(auth(userAuth.doctor), slotController.getAllSlots);
+
+slotRouter.route('/:slotId').patch(auth(userAuth.doctor),ValidationCoreFunction(Validators.updateSlotDate), slotController.updateSlotDate);
+slotRouter.route('/:slotId').put(auth(userAuth.doctor), slotController.cancelSlot);
 
 export default slotRouter;
