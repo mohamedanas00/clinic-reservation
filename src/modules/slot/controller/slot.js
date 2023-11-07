@@ -4,7 +4,6 @@ import slotModel from "../../../../DB/models/slot.model.js";
 import { ErrorClass } from "../../../utils/errorClass.js";
 import appointmentModel from "../../../../DB/models/appointment.model.js";
 import userModel from "../../../../DB/models/user.model.js";
-import { date } from "joi";
 
 export const addSlot = asyncHandler(async (req, res, next) => {
   const doctorId = req.user.id;
