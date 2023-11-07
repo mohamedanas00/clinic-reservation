@@ -4,13 +4,14 @@ import slotModel from "../../../../DB/models/slot.model.js";
 import { ErrorClass } from "../../../utils/errorClass.js";
 import appointmentModel from "../../../../DB/models/appointment.model.js";
 import userModel from "../../../../DB/models/user.model.js";
+import { date } from "joi";
 
 export const addSlot = asyncHandler(async (req, res, next) => {
   const doctorId = req.user.id;
   const { date } = req.body;
   const checkDate = await slotModel.findOne({
     where: {
-      date,
+      date:new Date(date),
       userId: doctorId,
     },
   });
@@ -20,7 +21,7 @@ export const addSlot = asyncHandler(async (req, res, next) => {
     );
   }
   const newSlot = await slotModel.create({
-    date,
+    date:new Date(date),
     userId: doctorId,
   });
   return res.status(StatusCodes.CREATED).json({ message: "Done", newSlot });
@@ -44,12 +45,13 @@ export const updateSlotDate = asyncHandler(async (req, res, next) => {
     );
   }
   if (req.body.date) {
-    if (slot.date == req.body.date) {
+    const newDate=new date(req.body.date)
+    if (slot.date == newDate) {
       return next(
         new ErrorClass("Already have slot in same time", StatusCodes.CONFLICT)
       );
     }
-    slot.date = req.body.date;
+    slot.date = newDate;
   }
 
   await slot.save();
