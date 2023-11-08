@@ -11,8 +11,7 @@ app.use(cors())
 // setup port and the baseUrl
 initApp(app, express)
 
-console.log('DB_USER:', process.env.DB_USERNAME);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+
 
 const port = +process.env.PORT
 app.listen(port, () => console.log(`App listening on port:${port}!`))
