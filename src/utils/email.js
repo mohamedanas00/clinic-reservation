@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-export const emailHtml = (Text) => {
+export const emailHtml = (Text ,doctorName) => {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
   
@@ -78,7 +78,7 @@ export const emailHtml = (Text) => {
                                                                                   </tr>
                                                                                   <tr>
                                                                                       <td align="left" class="esd-block-text es-p30t">
-                                                                                          <p><strong>Hi Mike!</strong><br><br>My name is Alisa, I am a representative of the Electros company.<br><br>Recently, we decided to hold a promotion together with our partners, so for you we have prepared offers for electronics with discounts up to 80%.<br><br>We will provide you with a personal consultant who will help you in choosing a product.<br><br><strong>Regards, Alice</strong></p>
+                                                                                          <p><strong>Hi ${doctorName}!</strong><br><br>we want to notify you that,<br><br>Recently,${Text}.<strong>Regards, Clinic Reservation</strong></p>
                                                                                       </td>
                                                                                   </tr>
                                                                               </tbody>
@@ -106,7 +106,7 @@ export const emailHtml = (Text) => {
                                                                                                           <table>
                                                                                                               <tbody>
                                                                                                                   <tr>
-                                                                                                                      <td class="esd-block-image" style="font-size: 0px;"><a target="_blank" href="https://viewstripo.email/"><img src="https://fbodajb.stripocdn.email/content/guids/CABINET_109b42e969cb8bcd6bf3547022ae0deb/images/taylorhernandezdlkr_x3t_7sunsplash_3.png" class="p_image" alt="Avatar" width="64" style="display: block; border-radius: 18px;" title="Avatar"></a></td>
+                                                                                                                      <td class="esd-block-image" style="font-size: 0px;"><a target="_blank" href="https://viewstripo.email/"><img src="https://as2.ftcdn.net/v2/jpg/01/34/29/31/1000_F_134293169_ymHT6Lufl0i94WzyE0NNMyDkiMCH9HWx.jpg" class="p_image" alt="Avatar" width="64" style="display: block; border-radius: 18px;" title="Avatar"></a></td>
                                                                                                                   </tr>
                                                                                                               </tbody>
                                                                                                           </table>
@@ -117,12 +117,12 @@ export const emailHtml = (Text) => {
                                                                                                               <tbody>
                                                                                                                   <tr>
                                                                                                                       <td class="esd-block-text" esd-links-underline="none" esd-links-color="#000000">
-                                                                                                                          <h3 class="p_name"><b>Alice</b></h3>
+                                                                                                                          <h3 class="p_name"><b>Clinic</b></h3>
                                                                                                                       </td>
                                                                                                                   </tr>
                                                                                                                   <tr>
                                                                                                                       <td class="esd-block-text es-p5t" align="left">
-                                                                                                                          <h5 style="color: #666666;">Representative of the Electros company</h5>
+                                                                                                                          <h5 style="color: #666666;">Representative of the company</h5>
                                                                                                                       </td>
                                                                                                                   </tr>
                                                                                                                   <tr>
@@ -173,11 +173,8 @@ export const emailHtml = (Text) => {
 
 export const sendEmail = async function ({
   to,
-  cc,
-  bcc,
   subject,
   html,
-  attachments = [],
 } = {}) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
