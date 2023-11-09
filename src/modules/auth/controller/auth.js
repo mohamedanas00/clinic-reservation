@@ -32,8 +32,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
         password: newUser.password,
       },
     });
-    const html = emailHtml("7mda")
-    sendEmail({ to: email, subject: "Confirm Email", html })
+
     return res
       .status(StatusCodes.ACCEPTED)
       .json({ message: "Done", result: newUser, token });
