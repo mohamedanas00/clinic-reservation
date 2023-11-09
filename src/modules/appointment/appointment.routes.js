@@ -6,7 +6,11 @@ const router = Router();
 router.route('/:id')
     .post(auth(userAuth.patient),appointmentController.addAppointment)
     .put(auth(userAuth.patient),appointmentController.cancelAppointment)
-    .patch(auth(userAuth.patient),appointmentController.updateAppointment)
+
+
+router.route('/:id/updateAppointment')
+    .put(auth(userAuth.patient),appointmentController.updateAppointment)
+
 
 router.route('/')
     .get(auth(userAuth.patient),appointmentController.getAllAppointments)
