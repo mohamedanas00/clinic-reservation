@@ -6,5 +6,6 @@ const router=Router()
 router.get("/GetDoctorWithSlots",ValidationCoreFunction(Validators.GetDoctorsWithSlots),UserRouter.GetDoctorsWithSlots)
 router.get("/GetDoctorWithMajors",ValidationCoreFunction(Validators.GetDoctorWithMajors),UserRouter.GetDoctorWithMajors)
 router.get("/searchByDoctorName",ValidationCoreFunction(Validators.searchByDoctorName),UserRouter.searchByDoctorName)
+router.get("/getSlotByDrId/:id",ValidationCoreFunction(Validators.getDoctorSlotById),UserRouter.getDoctorSlotById)
 
 export default router
