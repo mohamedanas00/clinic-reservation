@@ -6,9 +6,9 @@ import { emailHtml, sendEmail } from "./email.js";
 export const notify = async ({patientId,doctorId,slotId,doctorName,doctorEmail,statusMessage,newSlot}={}) => {
   try {
     if(!newSlot){
-      var text = `Patient with ID:${patientId} is ${statusMessage} SlotId:${slotId}`;
+      var text = `Patient with ID:${patientId} made Reservation${statusMessage} SlotId:${slotId}`;
     }else{
-      var text = `Patient with ID:${patientId} is ${statusMessage} SlotId:${slotId} to slotId:${newSlot}`;
+      var text = `Patient with ID:${patientId} made Reservation${statusMessage} SlotId:${slotId} to slotId:${newSlot}`;
     }
     const html = emailHtml(text, doctorName);
     sendEmail({ to: doctorEmail, subject: "Appointment Reservation", html });

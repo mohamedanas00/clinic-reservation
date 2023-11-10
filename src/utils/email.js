@@ -78,7 +78,7 @@ export const emailHtml = (Text ,doctorName) => {
                                                                                   </tr>
                                                                                   <tr>
                                                                                       <td align="left" class="esd-block-text es-p30t">
-                                                                                          <p><strong>Hi ${doctorName}!</strong><br><br>we want to notify you that,<br><br>Recently,${Text}.<strong>Regards, Clinic Reservation</strong></p>
+                                                                                          <p><strong>Hi DR.${doctorName}!</strong><br><br>we want to notify you that,<br><br>Recently,${Text}.<strong>Regards, Clinic Reservation</strong></p>
                                                                                       </td>
                                                                                   </tr>
                                                                               </tbody>
