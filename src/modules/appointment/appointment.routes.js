@@ -8,7 +8,7 @@ router.route('/:id')
     .put(auth(userAuth.patient),appointmentController.cancelAppointment)
 
 
-router.route('/:id/updateAppointment')
+router.route('/updateAppointment/:id')
     .put(auth(userAuth.patient),appointmentController.updateAppointment)
 
 
