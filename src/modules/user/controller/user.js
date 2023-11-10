@@ -69,7 +69,6 @@ export const searchByDoctorName = asyncHandler(async (req, res, next) => {
 
 export const getDoctorSlotById=asyncHandler(async(req,res,next)=>{
   const{id}=req.params;
-  console.log(id);
   const doctor=await slotModel.findAll({where: {
     userId:id,
   },})
