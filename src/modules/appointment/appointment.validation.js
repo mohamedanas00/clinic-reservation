@@ -4,10 +4,7 @@ import { generalFields } from "../../middleware/validation.js";
 
 export const addAppointment={
     body: joi.object().required()
-    .keys({
-        symptoms:generalFields.name,
-      
-    }).required(),
+    .keys({}).required(),
   query: joi.object().keys({
     
   }).required(),

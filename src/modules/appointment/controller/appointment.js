@@ -9,7 +9,6 @@ import { notify } from "../../../utils/messagingFeature&mailSend.js";
 export const addAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const patientId = req.user.id;
-  const { symptoms } = req.body;
   const slot = await slotModel.findOne({
     where: { id: id },
     include: [{model:userModel}],
@@ -38,7 +37,6 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
     slotId: id,
     userId: patientId,
     doctorId: slot.userId,
-    symptoms,
   });
   //*send email and create message
   const slotId = slot.id;

@@ -14,10 +14,6 @@ const appointmentModel = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    symptoms:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   {
     timestamps: true,
