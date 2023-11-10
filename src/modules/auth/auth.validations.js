@@ -28,7 +28,7 @@ export const signIn = {
     .required()
     .keys({
       email: generalFields.email,
-      password: generalFields.password,
+      password: joi.string().required(),
     })
     .required(),
     query: joi.object().keys({
