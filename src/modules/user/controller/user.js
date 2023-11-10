@@ -5,6 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import slotModel from "../../../../DB/models/slot.model.js";
 import { Op } from 'sequelize';
 
+
 export const GetDoctorsWithSlots = asyncHandler(async (req, res, next) => {
   const user = await userModel.findAll({
     where: {
@@ -65,3 +66,16 @@ export const searchByDoctorName = asyncHandler(async (req, res, next) => {
     return res.status(StatusCodes.OK).json({ message: `done`, doctor });
 
 });
+
+export const getDoctorSlotById=asyncHandler(async(req,res,next)=>{
+  const{id}=req.params;
+  console.log(id);
+  const doctor=await slotModel.findAll({where: {
+    userId:id,
+  },})
+  if (doctor.length==0) {
+    return next(new ErrorClass(`No doctors found `), StatusCodes.OK);
+  }
+  return res.status(StatusCodes.OK).json({ message: `done`, doctor });
+
+})

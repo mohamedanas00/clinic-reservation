@@ -33,3 +33,18 @@ export const searchByDoctorName = {
     params:joi.object().keys({
     }).required()
   };
+
+  export const getDoctorSlotById = {
+    body: joi.object().required()
+      .keys({
+  
+      }).required(),
+    query: joi.object().keys({
+  
+    }).required(),
+    params: joi.object().keys({
+      id:joi.number().required()
+  
+    }).required()
+  
+  }
