@@ -11,7 +11,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   const patientId = req.user.id;
   const slot = await slotModel.findOne({
     where: { id: id },
-    include: [{model:userModel}],
+    include: [{ model: userModel }],
   });
   if (!slot) {
     return next(new ErrorClass("slot not found!", StatusCodes.NOT_FOUND));
@@ -21,7 +21,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
     return next(new ErrorClass("slot not available!", StatusCodes.CONFLICT));
   }
   const appointmentExist = await appointmentModel.findOne({
-    where: { userId: patientId, doctorId: slot.userId },
+    where: { userId: patientId, doctorId: slot.userId, status: "available" },
   });
   if (appointmentExist) {
     return next(
@@ -54,7 +54,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   });
   return res.status(StatusCodes.CREATED).json({ message: "Done" });
 });
-//!Patients can view all his reservations
+//*Patients can view all his reservations
 export const getAllAppointments = asyncHandler(async (req, res, next) => {
   const patientId = req.user.id;
   const appointments = await appointmentModel.findAll({
@@ -80,12 +80,12 @@ export const getAllAppointments = asyncHandler(async (req, res, next) => {
   });
   return res.status(StatusCodes.OK).json({ message: "Done", appointments });
 });
-//! Patient can cancel his appointment.
+//*Patient can cancel his appointment.
 export const cancelAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const patientId = req.user.id;
   const appointment = await appointmentModel.findOne({
-    where: { id:id ,userId: patientId},
+    where: { id: id, userId: patientId },
     include: [
       {
         model: slotModel,
@@ -115,7 +115,6 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
   const slotId = appointment.slot.id;
   await slotModel.update({ status: "available" }, { where: { id: slotId } });
   appointment.status = "cancel";
-  appointment.slotId = null;
 
   appointment.save();
 
@@ -135,12 +134,16 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.OK).json({ message: "Done" });
 });
 
-//!Patient can update his appointment by change the doctor or the slot.
+//*Patient can update his appointment by change the doctor or the slot.
 export const updateAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const patientId = req.user.id;
   const { slot } = req.body;
-  let doctorId, doctorName, doctorEmail, slotId, check = false;
+  let doctorId,
+    doctorName,
+    doctorEmail,
+    slotId,
+    check = false;
   const appointment = await appointmentModel.findOne({
     where: {
       id: id,
@@ -167,13 +170,16 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
 
   const slotExist = await slotModel.findOne({
     where: { id: slot },
-    include: [{ model:userModel }],
+    include: [{ model: userModel }],
   });
   if (!slotExist) {
     return next(new ErrorClass("slot not Found!"), StatusCodes.NOT_FOUND);
   }
-  if(slotExist.status=='reserved'){
-    return next(new ErrorClass("slot Already Reserved!"), StatusCodes.BAD_REQUEST);
+  if (slotExist.status == "reserved") {
+    return next(
+      new ErrorClass("slot Already Reserved!"),
+      StatusCodes.BAD_REQUEST
+    );
   }
   if (appointment.status == "cancel") {
     return next(
@@ -228,9 +234,12 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
     });
   }
   const Id = appointment.slot.id;
-  await slotModel.update({status: "available"}, {where: { id: Id } } );
-  await slotModel.update({ status: "reserved" },{ where: { id: slot } });
-  await appointmentModel.update({ slotId: slot, doctorId: slotExist.user.id },{ where: { id: id } });
+  await slotModel.update({ status: "available" }, { where: { id: Id } });
+  await slotModel.update({ status: "reserved" }, { where: { id: slot } });
+  await appointmentModel.update(
+    { slotId: slot, doctorId: slotExist.user.id },
+    { where: { id: id } }
+  );
 
   return res.status(StatusCodes.OK).json({ message: "Done" });
 });
