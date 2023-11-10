@@ -10,8 +10,9 @@ router.route('/:id')
     .put(auth(userAuth.patient),ValidationCoreFunction(Validators.cancelAppointment),appointmentController.cancelAppointment)
 
 
-router.route('/:id/updateAppointment')
-    .put(auth(userAuth.patient),ValidationCoreFunction(Validators.updateAppointment),appointmentController.updateAppointment)
+router.route('/updateAppointment/:id')
+    .put(auth(userAuth.patient),appointmentController.updateAppointment)
+
 
 
 router.route('/')
