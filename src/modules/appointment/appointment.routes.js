@@ -18,4 +18,7 @@ router.route('/updateAppointment/:id')
 router.route('/')
     .get(auth(userAuth.patient),ValidationCoreFunction(Validators.getAllAppointments),appointmentController.getAllAppointments)
 
+router.route('/searchByDoctorName')
+    .get(auth(userAuth.patient),ValidationCoreFunction(Validators.getAppointmentsByDoctorName),appointmentController.getAppointmentsByDoctorName)
+
 export default router;

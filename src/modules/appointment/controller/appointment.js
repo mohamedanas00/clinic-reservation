@@ -5,6 +5,7 @@ import { asyncHandler } from "../../../utils/errorHandling.js";
 import appointmentModel from "../../../../DB/models/appointment.model.js";
 import userModel from "../../../../DB/models/user.model.js";
 import { notify } from "../../../utils/messagingFeature&mailSend.js";
+import { Op } from 'sequelize';
 
 export const addAppointment = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
@@ -243,3 +244,32 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
 
   return res.status(StatusCodes.OK).json({ message: "Done" });
 });
+
+//*Extra endPoint
+export const getAppointmentsByDoctorName=asyncHandler(async(req,res,next)=>{
+  const pageAsNumber=0;
+  const patientId = req.user.id; 
+  if(req.query.page){
+     pageAsNumber =Number(req.query.page);
+  }
+  const appointments = await appointmentModel.findAll({
+    where: { userId: patientId },
+    attributes: { exclude: ["slotId", "userId"] },
+    include: [
+      {
+        model: slotModel,
+        include: [
+          {
+            model: userModel,
+            name:{ [Op.like]: `%${req.query.name}%`},
+            attributes: { exclude: ["password"] },
+          },
+        ],
+      },
+    ],
+    include:{model:slotModel},
+    limit:Number(process.env.page_limit),
+    offset:pageAsNumber*Number(process.env.page_limit)
+  });
+    return res.status(StatusCodes.OK).json({ message: `done`, appointments });
+})

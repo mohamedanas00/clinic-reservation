@@ -60,3 +60,11 @@ export const getAllAppointments={
     }).required()
 
 }
+
+export const getAppointmentsByDoctorName = {
+  body: joi.object().required()
+    .keys({
+    }).required(),
+  params:joi.object().keys({
+  }).required()
+};
