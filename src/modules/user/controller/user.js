@@ -69,12 +69,12 @@ export const searchByDoctorName = asyncHandler(async (req, res, next) => {
 
 export const getDoctorSlotById=asyncHandler(async(req,res,next)=>{
   const{id}=req.params;
-  const doctor=await slotModel.findAll({where: {
+  const slots=await slotModel.findAll({where: {
     userId:id,
   },})
-  if (doctor.length==0) {
-    return next(new ErrorClass(`No doctors found `), StatusCodes.OK);
+  if (slots.length==0) {
+    return next(new ErrorClass(`No slots found `), StatusCodes.OK);
   }
-  return res.status(StatusCodes.OK).json({ message: `done`, doctor });
+  return res.status(StatusCodes.OK).json({ message: `done`, slots });
 
 })
