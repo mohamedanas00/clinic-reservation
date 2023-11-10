@@ -57,40 +57,6 @@ export const updateSlotDate = asyncHandler(async (req, res, next) => {
   return res.status(StatusCodes.CREATED).json({ message: "Done" });
 });
 
-// export const cancelSlot = asyncHandler(async (req, res, next) => {
-//   const { slotId } = req.params;
-//   const doctorId = req.user.id;
-//   const slot = await slotModel.findOne({
-//     where: {
-//       id: slotId,
-//     },
-//     include:[appointmentModel]
-//   });
-//   if (!slot) {
-//     return next(new ErrorClass("slot not Exist!", StatusCodes.NOT_FOUND));
-//   }
-
-//   if (slot.userId != doctorId) {
-//     return next(
-//       new ErrorClass("You can not update this slot", StatusCodes.FORBIDDEN)
-//     );
-//   }
-
-//   if(slot.status=='cancel'){
-//     return next(
-//       new ErrorClass("slot already cancel", StatusCodes.CONFLICT)
-//     );
-//   }
-
-//   const appointmentId =slot.appointment.id;
-//   console.log(appointmentId);
-
-
-
-  
-// });
-
-
 export const getAllSlots =asyncHandler(async(req,res,next)=>{
   const doctorId = req.user.id;
   const slots = await slotModel.findAll({
@@ -118,4 +84,3 @@ export const getAllSlots =asyncHandler(async(req,res,next)=>{
 
 })
 
-//?get patients
