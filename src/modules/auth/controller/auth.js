@@ -4,7 +4,6 @@ import { asyncHandler } from "../../../utils/errorHandling.js";
 import { compare, hash } from "../../../utils/hashing.js";
 import { generateToken } from "../../../utils/generateAndVerifyToken.js";
 import userModel from "./../../../../DB/models/user.model.js";
-import { emailHtml, sendEmail } from "../../../utils/email.js";
 
 export const signUp = asyncHandler(async (req, res, next) => {
   const { name, email, password, confirmPassword, age, phone, role, gender } =
@@ -67,6 +66,6 @@ export const signIn = asyncHandler(async (req, res, next) => {
       .status(StatusCodes.ACCEPTED)
       .json({ message: "Successfully signed in",user ,token });
   } else {
-    return next(new ErrorClass("incorrect password"), StatusCodes.BAD_REQUEST);
+    return next(new ErrorClass("Incorrect data"), StatusCodes.BAD_REQUEST);
   }
 });
