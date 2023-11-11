@@ -46,6 +46,7 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
   const doctorEmail = slot.user.email;
   const statusMessage = "created";
   notify({
+    req,
     patientId,
     doctorId,
     slotId,
@@ -124,6 +125,7 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
   const doctorEmail = appointment.slot.user.email;
   const statusMessage = "cancelled";
   notify({
+    req,
     patientId,
     doctorId,
     slotId,
@@ -197,6 +199,7 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
     const statusMessage = "created";
     check = true;
     notify({
+      req,
       patientId,
       doctorId,
       slotId,
@@ -214,6 +217,7 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
   if (check) {
     const statusMessage = "cancelled";
     notify({
+      req,
       patientId,
       doctorId,
       slotId,
@@ -225,6 +229,7 @@ export const updateAppointment = asyncHandler(async (req, res, next) => {
     const statusMessage = "updated";
     const newSlot = slot;
     notify({
+      req,
       patientId,
       doctorId,
       slotId,
