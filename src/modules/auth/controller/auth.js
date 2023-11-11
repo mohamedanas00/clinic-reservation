@@ -33,7 +33,7 @@ export const signUp = asyncHandler(async (req, res, next) => {
     });
 
     return res
-      .status(StatusCodes.ACCEPTED)
+      .status(StatusCodes.CREATED)
       .json({ message: "Done", result: newUser, token });
   } else {
     return next(
@@ -63,7 +63,7 @@ export const signIn = asyncHandler(async (req, res, next) => {
       },
     });
     return res
-      .status(StatusCodes.ACCEPTED)
+      .status(StatusCodes.OK)
       .json({ message: "Successfully signed in",user ,token });
   } else {
     return next(new ErrorClass("Incorrect data"), StatusCodes.BAD_REQUEST);
