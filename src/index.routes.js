@@ -18,7 +18,7 @@ const initApp = (app, express) => {
 
   app.use(globalErrorHandling);
   app.use("/*", (req, res, next) => {
-    return res.json({ message: "in_valid routing" })
+    return res.json({ message: "In_valid Routing🚫" })
 })
   connectDB();
 };
