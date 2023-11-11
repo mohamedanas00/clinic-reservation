@@ -16,11 +16,7 @@ export const GetDoctorsWithSlots = {
 export const GetDoctorWithMajors = {
     body: joi.object().required()
       .keys({
-        specialization:generalFields.name
       }).required(),
-    query: joi.object().keys({
-      
-    }).required(),
     params:joi.object().keys({
       
     }).required()

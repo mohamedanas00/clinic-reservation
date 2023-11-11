@@ -25,11 +25,11 @@ export const GetDoctorsWithSlots = asyncHandler(async (req, res, next) => {
 });
 
 export const GetDoctorWithMajors = asyncHandler(async (req, res, next) => {
-  const { specialization } = req.body;
+  const major= req.query.major.replace(/-/g, ' ');;
   const user = await userModel.findAll({
     where: {
       role: "doctor",
-      specialization: specialization,
+      specialization: major,
     },
     attributes:{exclude:['password']},
     include: [
@@ -38,9 +38,7 @@ export const GetDoctorWithMajors = asyncHandler(async (req, res, next) => {
       },
     ],
   });
-  if (user.length == 0) {
-    return next(new ErrorClass(`No doctors found `), StatusCodes.OK);
-  }
+
   return res.status(StatusCodes.OK).json({ message: `done`, user });
 });
 
