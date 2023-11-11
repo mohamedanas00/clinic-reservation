@@ -12,6 +12,18 @@ const messageModel = sequelize.define(
         type:DataTypes.STRING,
         allowNull:false,
     },
+    patientName:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    patientPhone:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    patientEmail:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
   {
     timestamps: true,
