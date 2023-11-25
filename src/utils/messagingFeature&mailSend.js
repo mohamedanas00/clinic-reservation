@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import messageModel from "../../DB/models/message.model.js";
 import { ErrorClass } from "./errorClass.js";
 import { emailHtml, sendEmail } from "./email.js";
-
+import {sendMessage} from './rabbitMqSend.js' 
 export const notify = async ({req,patientId,doctorId,slotId,doctorName,doctorEmail,statusMessage,newSlot}={}) => {
   try {
     if(!newSlot){
@@ -17,11 +17,12 @@ export const notify = async ({req,patientId,doctorId,slotId,doctorName,doctorEma
       userId: doctorId,
       description: text,
       patientName:req.user.name,
-      patientEmail:req.user.email,
       patientPhone:req.user.phone,
+      patientEmail:req.user.email,
     });
+    const msg={"doctorId":doctorId,"patientId":patientId,"Operation":text};
+    await sendMessage(doctorEmail,msg)
   } catch (error) {
-    console.log(error);
     new ErrorClass(`Error for creating notify messaging`, StatusCodes.BAD_REQUEST)
   }
 };
