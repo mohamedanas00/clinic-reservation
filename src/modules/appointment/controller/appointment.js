@@ -22,8 +22,9 @@ export const addAppointment = asyncHandler(async (req, res, next) => {
     return next(new ErrorClass("slot not available!", StatusCodes.CONFLICT));
   }
   const appointmentExist = await appointmentModel.findOne({
-    where: { userId: patientId, doctorId: slot.userId, status: "available" },
+    where: { userId: patientId, doctorId: slot.userId, status: "reserved" },
   });
+
   if (appointmentExist) {
     return next(
       new ErrorClass(
