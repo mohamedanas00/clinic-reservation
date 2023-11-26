@@ -1,0 +1,5 @@
+# Use the official RabbitMQ image
+FROM rabbitmq:3-management
+
+# Expose the RabbitMQ default port and the management interface port
+EXPOSE 5672 15672
