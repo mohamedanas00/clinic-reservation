@@ -1,0 +1,29 @@
+version: '3'
+
+networks:
+  mynetwork:   # Define the custom network
+    driver: bridge
+
+services:
+  rabbitmq:
+    build:
+        context: .
+        dockerfile: Docker/Dockerfile.rabbitmq
+    ports:
+      - "5672:5672" # RabbitMQ default port
+      - "15672:15672" # RabbitMQ management interface
+    networks:
+      - mynetwork 
+
+  node-app:
+    container_name: backend-container01
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.nodejs 
+    ports:
+     - "8000:3000"
+    networks:
+      - mynetwork 
+
+
+    
