@@ -5,7 +5,7 @@ export const receivedMessage = async (queueName) => {
         const connection = await amqplib.connect('amqp://rabbitmq');
         const channel = await connection.createChannel();
         await channel.assertQueue(queueName, { durable: false });
-        console.log(`Waiting messages in queue: ${queueName}`);
+        console.log(`Waiting for messages in queue: ${queueName}`);
 
         return new Promise((resolve, reject) => {
             const messages = [];
@@ -13,19 +13,25 @@ export const receivedMessage = async (queueName) => {
             channel.consume(queueName, (msg) => {
                 const messageObject = JSON.parse(msg.content.toString());
                 messages.push(messageObject);
-                setTimeout(() => {
-                    console.log("Done processing message");
-                    channel.ack(msg);
-                }, 1000);
+
+                // Acknowledge the message after processing
+                channel.ack(msg);
+
+                console.log("Done processing message");
             }, { noAck: false });
 
-            // Wait for a certain amount of time or some condition before resolving the promise
+            // Set a longer timeout to wait for messages
             setTimeout(() => {
+                // Close the channel and connection
+                channel.close();
+                connection.close();
+
+                // Resolve the promise with the collected messages
                 resolve(messages);
             }, 5000); // Adjust the timeout as needed
         });
     } catch (err) {
         console.error(err);
-        throw new Error(`Error for creating sendMessaging: ${err.message}`);
+        throw new Error(`Error for received Messages: ${err.message}`);
     }
 };
