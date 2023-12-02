@@ -21,9 +21,18 @@ services:
       context: .
       dockerfile: Docker/Dockerfile.nodejs 
     ports:
-     - "8000:3000"
+     - "5000:8000"
     networks:
       - mynetwork 
 
+  frontend:
+    container_name: frontend-container01
+    image: frontend  
+    ports:
+      - "4200:80"
+    networks:
+      - mynetwork
+    depends_on:
+      - node-app
 
     
