@@ -20,7 +20,8 @@ docker run -d --name rabbitmq --network %DOCKER_NETWORK% -p 5672:5672 -p 15672:1
 REM Function to build and run Node.js app container
 :run_node_app
 docker build -t node-app -f Docker\Dockerfile.nodejs .
-docker run -d --name backend-container01 --network %DOCKER_NETWORK% -p 5000:8000 node-app
+@REM docker run -d --name backend-container01 --network %DOCKER_NETWORK% -p 5000:8000 node-app
+docker run -d --name backend-container01 -p 5000:8000 -e PORT=8000 --network %DOCKER_NETWORK% -e DB_HOST="bdxcsi5sokfugsljmjys-mysql.services.clever-cloud.com" -e DB_USERNAME=uv7v4blbnkhx7d5q -e DB_PASSWORD="BrwaY3K65sLvEUgYoQ2a" -e DB_DBNAME=bdxcsi5sokfugsljmjys -e salt_round=8 -e TOKEN_SIGNATURE="Loserlolaaa" -e BEARER_KEY="key_" -e page_limit=20 -e gmail="m.ametwally15@gmail.com" -e EMAIL_PASSWORD="jqubhqjeatmprplt" node-app
 
 REM Function to run the frontend container
 :run_frontend
