@@ -20,8 +20,11 @@ docker run -d --name rabbitmq --network %DOCKER_NETWORK% -p 5672:5672 -p 15672:1
 REM Function to build and run Node.js app container
 :run_node_app
 docker build -t node-app -f Docker\Dockerfile.nodejs .
-@REM docker run -d --name backend-container01 --network %DOCKER_NETWORK% -p 5000:8000 node-app
 docker run -d --name backend-container01 -p 5000:8000 -e PORT=8000 --network %DOCKER_NETWORK% -e DB_HOST="bdxcsi5sokfugsljmjys-mysql.services.clever-cloud.com" -e DB_USERNAME=uv7v4blbnkhx7d5q -e DB_PASSWORD="BrwaY3K65sLvEUgYoQ2a" -e DB_DBNAME=bdxcsi5sokfugsljmjys -e salt_round=8 -e TOKEN_SIGNATURE="Loserlolaaa" -e BEARER_KEY="key_" -e page_limit=20 -e gmail="m.ametwally15@gmail.com" -e EMAIL_PASSWORD="jqubhqjeatmprplt" node-app
+
+REM Function to run the MySQL container
+:run_mysql
+docker run -d --name mysql-container -p 3306:3306 --network %DOCKER_NETWORK% -e MYSQL_ROOT_PASSWORD=root_password -e MYSQL_DATABASE=mydatabase -e MYSQL_USER=myuser -e MYSQL_PASSWORD=mypassword mysql:8.0
 
 REM Function to run the frontend container
 :run_frontend
@@ -40,10 +43,12 @@ CALL :create_network
 REM Run services
 CALL :run_rabbitmq
 CALL :run_node_app
+CALL :run_mysql
 CALL :run_frontend
 
 REM Provide information to the user
 ECHO Services are starting. You can access:
 ECHO - RabbitMQ at http://localhost:15672
 ECHO - Node.js app at http://localhost:5000
+ECHO - MySQL at localhost:3306
 ECHO - Frontend app at http://localhost:4200
