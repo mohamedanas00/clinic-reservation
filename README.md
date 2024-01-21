@@ -1,35 +1,54 @@
-
 # clinic-reservation
 
 
-This project is a web-based appointment scheduling system with user authentication and management functionalities. It is designed for both patients and doctors, providing a secure and user-friendly platform for scheduling and managing medical appointments. The backend is implemented using Node.js.
+This project encompasses a web-based appointment scheduling system featuring user authentication and management functionalities. Tailored for both patients and doctors, the system offers a secure and user-friendly platform dedicated to scheduling and overseeing medical appointments. The backend is developed using Node.js.
 
-- Sign in & sign up for patient and doctor.
+- Implement user authentication for both patients and doctors, allowing secure registration and login functionalities.
 
-- User Authentication: Secure user registration and authentication system.
+- Develop a secure user registration and authentication system to ensure the integrity and privacy of user accounts.
 
-- Doctor set his schedule. (Inserting a slot) 
+-  Enable doctors to set their schedules by inserting time slots based on their availability. 
 
-- Patients select doctor, view his available slots, then patient 
-  chooses a slot.
+- Allow patients to select a doctor, view the available time slots, and choose a suitable appointment slot.
 
-- Patient can update his appointment by change the doctor or the slot. 
-- Doctor can see all appointments that ”ReservationCreated” or ” ReservationUpdated” or ”ReservationCancelled” , notify doctor by mail using nodemailer , rabbitMq (messaging feature) to notify doctor in app.
+- Enable patients to update their appointments by changing the assigned doctor or the selected new time slot. 
 
-- patient can show all doctors with his slots.
+- Provide doctors with the ability to view appointments with statuses such as "ReservationCreated," "ReservationUpdated," or "ReservationCancelled."
 
-- Patient can cancel his appointment. 
+- Implement email notifications to notify doctors about appointments using Nodemailer and the RabbitMQ messaging feature within the application.
 
-- Patients can view all his reservations.
+- Provide patients with the option to cancel their appointments if needed.
+
+- Enable patients to view a list of all their reservations for better appointment management.
 ## Deployment
 
-To deploy this project run
+To run this project 
 
 ```bash
   npm i init
   node index.js
 ```
 
+To run docker files
+
+using bash script:
+```bash
+  ./run_services.bat
+```
+using docker-compose:
+
+- create and start containers
+```bash
+  docker-compose up
+```
+- to stop and delete containers
+```bash
+  docker-compose down
+```
+- to stop containers 
+```bash
+  docker-compose stop
+```
 
 ## Environment Variables
 
@@ -51,3 +70,12 @@ To run this project, you will need to add the following environment variables to
 ## postman-documentation
 
 https://documenter.getpostman.com/view/25070384/2s9YkjCj2V
+## About project
+ - Using SQL db .
+ - Deployment using vercel and render.
+ - Using docker to create images for (FrontEnd - backend - Rabbitmq).
+ - Develpoer profile who develop FrontEnd [AmrMustafa ](https://github.com/amrmustafa02)
+ - Repository  for FrontEnd [REPO](https://github.com/amrmustafa02/clinic?tab=readme-ov-file)
+ - To access our clinic-website [clinic ](https://clinic-tawny-xi.vercel.app/)
+ 
+

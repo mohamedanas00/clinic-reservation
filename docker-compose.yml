@@ -1,0 +1,49 @@
+version: '3'
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+services:
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.rabbitmq
+    container_name: rabbitmq
+    networks:
+      - mynetwork
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  node-app:
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.nodejs
+    container_name: backend-container01
+    networks:
+      - mynetwork
+    ports:
+      - "5000:8000"
+    environment:
+      - PORT=8000
+      - DB_HOST=bdxcsi5sokfugsljmjys-mysql.services.clever-cloud.com
+      - DB_USERNAME=uv7v4blbnkhx7d5q
+      - DB_PASSWORD=BrwaY3K65sLvEUgYoQ2a
+      - DB_DBNAME=bdxcsi5sokfugsljmjys
+      - salt_round=8
+      - TOKEN_SIGNATURE=Loserlolaaa
+      - BEARER_KEY=key_
+      - page_limit=20
+      - gmail=m.ametwally15@gmail.com
+      - EMAIL_PASSWORD=jqubhqjeatmprplt
+
+  frontend-container01:
+    image: frontend
+    container_name: frontend-container01
+    networks:
+      - mynetwork
+    ports:
+      - "4200:80"
+
