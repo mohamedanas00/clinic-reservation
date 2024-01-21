@@ -14,7 +14,7 @@ IF %NETWORK_EXISTS% EQU 0 (
 
 REM Function to build and run RabbitMQ container
 :run_rabbitmq
-docker build -t rabbitmq -f Docker\Dockerfile.rabbitmq .
+docker build -t rabbitmq -f rabbitDocker\Dockerfile.rabbitmq .
 docker run -d --name rabbitmq --network %DOCKER_NETWORK% -p 5672:5672 -p 15672:15672 rabbitmq
 
 REM Function to build and run Node.js app container
