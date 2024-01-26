@@ -74,6 +74,11 @@ https://documenter.getpostman.com/view/25070384/2s9YkjCj2V
  - Using SQL db .
  - Deployment using vercel and render.
  - Using docker to create images for (FrontEnd - backend - Rabbitmq).
+ - Docker to encapsulate and containerize our entire application stack, 
+   encompassing the backend, database, and frontend components.
+ - K8s allows to streamline the deployment, scaling, manage and operation of 
+   application containers.
+ - Openshift To expose routes and facilitate external access for end-users.
  - Develpoer profile who develop FrontEnd [AmrMustafa ](https://github.com/amrmustafa02)
  - Repository  for FrontEnd [REPO](https://github.com/amrmustafa02/clinic?tab=readme-ov-file) 
 
