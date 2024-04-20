@@ -36,3 +36,11 @@ export const ValidationCoreFunction =(schema)=>{
         next()
  }
 }
+
+// /^                 // Start of the string
+//   (?=.*\d)         // Positive lookahead to ensure there's at least one digit
+//   (?=.*[a-z])      // Positive lookahead to ensure there's at least one lowercase letter
+//   (?=.*[A-Z])      // Positive lookahead to ensure there's at least one uppercase letter
+//   (?=.*[a-zA-Z])   // Positive lookahead to ensure there's at least one letter
+//   .{8,}            // Match any character (except newline) at least 8 times
+// $/                 // End of the string
