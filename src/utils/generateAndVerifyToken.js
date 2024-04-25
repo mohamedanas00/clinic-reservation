@@ -9,10 +9,7 @@ export const generateToken = (payload = {}) => {
   return token;
 };
 
-export const verifyToken = ({
-  token,
-  signature = process.env.TOKEN_SIGNATURE,
-} = {}) => {
+export const verifyToken = ({token,signature = process.env.TOKEN_SIGNATURE,} = {}) => {
   const decoded = jwt.verify(token, signature);
   return decoded;
 };

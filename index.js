@@ -8,12 +8,8 @@ dotenv.config();
 import initApp from './src/index.routes.js'
 //cors 
 
-var corsOptions = {
-    origin: process.env.CORS,
-    optionsSuccessStatus: 200
-}
 
-app.use(cors(corsOptions))
+app.use(cors())
 // setup port and the baseUrl
 initApp(app, express)
 
